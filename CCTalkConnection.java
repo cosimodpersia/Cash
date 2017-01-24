@@ -26,7 +26,8 @@ public class CCTalkConnection {
 		ArrayList<CCTalkMessage> response = new ArrayList<>();
 		try {
 			boolean flag = true;
-			while(flag){
+			int i=0;
+			while(flag && i<3){
 				CCTalkMessage message = new CCTalkMessage((byte) destination,(byte) source, (byte)header, data);
 				output.write(message.getCommand());
 				Thread.sleep(70);
@@ -34,6 +35,11 @@ public class CCTalkConnection {
 				response = CCTalkMessage.parseMessages(buffer);
 				if (response.size()>=2){
 					flag=false;
+				}else{
+					i++;
+					if(i==3){
+						System.out.println("Not able to send command : " +message);
+					}
 				}
 			}
 		} catch (Exception e) {

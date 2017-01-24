@@ -1,5 +1,7 @@
 package cosimo.cosimo;
 
+
+
 public class Coin {
 	private Double money;
 	

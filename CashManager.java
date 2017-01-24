@@ -1,5 +1,9 @@
 package cosimo.cosimo;
 
+import java.io.IOException;
+
+import javafx.scene.control.TextField;
+
 public class CashManager{
 	private final String COIN_USB_PATH;
 	private final String HOPPER_USB_PATH;
@@ -16,12 +20,15 @@ public class CashManager{
 	private final Hopper hopper;
 	private final CoinSelector coinSelector;
 	private final NoteValidator noteValidator;
-	private final Coin coin;
+	private Coin coin;
 	
 	private Thread coinSelectorThread;
 	private Thread noteValidatorThread;
 	
-	public CashManager(String coinPath,String hopperPath,String banknotePath,int coinAddress,int hopperAddress,int noteValidatorAddress) {
+	private Process process;
+	
+	public CashManager(String coinPath,String hopperPath,String banknotePath,
+			int coinAddress,int hopperAddress,int noteValidatorAddress) {
 		this.COIN_USB_PATH=coinPath;
 		this.HOPPER_USB_PATH=hopperPath;
 		this.NOTEVALIDATOR_USB_PATH=banknotePath;
@@ -68,30 +75,36 @@ public class CashManager{
 			coinSelector = new CoinSelector(this.connectionCoin, (byte) COIN_ADDRESS, coin);
 			noteValidator = new NoteValidator(connectionNoteValidator, (byte) NOTEVALIDATOR_ADDRESS, coin);
 		}
+		
 	}
 	
 	public void start(){
-		coinSelectorThread = new Thread(coinSelector);
-		coinSelectorThread.setName("Coin Selector Thread");
-		coinSelectorThread.start();
-		noteValidatorThread = new Thread(noteValidator);
-		noteValidatorThread.setName("note Validator Thread");
-		noteValidatorThread.start();
+//		coinSelectorThread = new Thread(coinSelector);
+//		coinSelectorThread.setName("Coin Selector Thread");
+//		coinSelectorThread.start();
+//		noteValidatorThread = new Thread(noteValidator);
+//		noteValidatorThread.setName("note Validator Thread");
+//		noteValidatorThread.start();
 	}
 	
 	public void stop(){
-		coinSelectorThread.interrupt();
-		noteValidatorThread.interrupt();
-		try {
-			coinSelectorThread.join();
-			noteValidatorThread.join();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		coinSelectorThread.interrupt();
+//		noteValidatorThread.interrupt();
+//		try {
+//			coinSelectorThread.join();
+//			noteValidatorThread.join();
+//		uiThread.join();
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 	
 	public void giveMoney(int money){
 		hopper.give(money);
+	}
+	
+	public Coin getCoinInstance(){
+		return coin;
 	}
 }

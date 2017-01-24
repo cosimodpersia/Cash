@@ -17,6 +17,11 @@ public class CoinSelector implements Runnable{
 	@Override
 	public void run() {
 		try {
+			this.coinConnection.sendMessage(this.ADDRESS,1,210, new byte[]{(byte)0x01,(byte)0x01});
+			this.coinConnection.sendMessage(this.ADDRESS,1,210, new byte[]{(byte)0x02,(byte)0x01});
+			this.coinConnection.sendMessage(this.ADDRESS,1,210, new byte[]{(byte)0x03,(byte)0x02});
+			this.coinConnection.sendMessage(this.ADDRESS,1,210, new byte[]{(byte)0x04,(byte)0x03});
+			this.coinConnection.sendMessage(this.ADDRESS,1,210, new byte[]{(byte)0x05,(byte)0x03});
 			ArrayList<CCTalkMessage> response = 
 					this.coinConnection.sendMessage(this.ADDRESS,1,229, null);
 			byte[] data = response.get(1).getData();

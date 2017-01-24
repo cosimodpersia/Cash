@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.Properties;
 import java.util.Scanner;
 
-
 public class App 
 {
 	private final static String PROPERTIES_FILE = "config.properties";
@@ -16,9 +15,9 @@ public class App
 		try {
 			properties.load(new FileInputStream(PROPERTIES_FILE));
 			startCash(properties);
-
 			// Wait for user pressing 'q' (if STDIN available) 
 			while (true) {
+				System.out.println("madonna di cri	");
 				while (System.in.available() > 0) {
 					final char ch = (char) System.in.read();
 					if (ch == 'q' || ch == 'Q') {

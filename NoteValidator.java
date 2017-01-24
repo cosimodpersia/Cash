@@ -28,6 +28,7 @@ public class NoteValidator implements Runnable {
 		while (!Thread.currentThread().isInterrupted()) {
 			try {
 				ArrayList<CCTalkMessage> response = noteConnection.sendMessage(this.ADDRESS, 1, 159, null);
+				System.out.println(response);
 				byte[] dataResp = response.get(1).getData();
 				if (dataResp[0] == 1 && eventNumber != 0) {
 					eventNumber = 0;
@@ -37,42 +38,13 @@ public class NoteValidator implements Runnable {
 					break;
 				case 1: {
 					eventNumber++;
+					Thread.sleep(100);
 					this.handle(dataResp[1], dataResp[2]);
 					break;
 				}
-				case 2: {
-					eventNumber += 2;
-					this.handle(dataResp[1], dataResp[2]);
-					this.handle(dataResp[3], dataResp[4]);
-					break;
+				default: // TODO it should never happen
 				}
-				case 3: {
-					eventNumber += 3;
-					this.handle(dataResp[1], dataResp[2]);
-					this.handle(dataResp[3], dataResp[4]);
-					this.handle(dataResp[5], dataResp[6]);
-					break;
-				}
-				case 4: {
-					eventNumber += 4;
-					this.handle(dataResp[1], dataResp[2]);
-					this.handle(dataResp[3], dataResp[4]);
-					this.handle(dataResp[5], dataResp[6]);
-					this.handle(dataResp[7], dataResp[8]);
-					break;
-				}
-				case 5: {
-					eventNumber += 5;
-					this.handle(dataResp[1], dataResp[2]);
-					this.handle(dataResp[3], dataResp[4]);
-					this.handle(dataResp[5], dataResp[6]);
-					this.handle(dataResp[7], dataResp[8]);
-					this.handle(dataResp[9], dataResp[10]);
-					break;
-				}
-				default: // TODO error
-				}
-				Thread.sleep(300);
+				Thread.sleep(400);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -90,27 +62,19 @@ public class NoteValidator implements Runnable {
 					System.out.println("errore inserimento");
 					break;
 				case 1: {
-					coin.addMoney(5);
-					break;
-				}
-				case 2: {
-					coin.addMoney(10);
-					break;
-				}
-				case 3: {
-					coin.addMoney(20);
-					break;
-				}
-				case 4: {
-					coin.addMoney(50);
-					break;
-				}
-				case 5: {
-					coin.addMoney(100);
+						if(b==1){
+						try {
+							noteConnection.sendMessage(ADDRESS, 1, 154, new byte[]{(byte) 0x01});
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						coin.addMoney(5);
+					}
 					break;
 				}
 				default:
-					System.err.println("bho");
+					System.err.println("FATAL ERROR. WHAT HAPPENED?");
 				}
 			}
 		}).start();
